@@ -7,7 +7,7 @@ Cadastro
 
 {% block 'body' %}
 <div class="container">
-  {% if status != '0' %}
+  {% if status and status != '0' %}
   <br>
   <div class="alert alert-danger" role="alert">
     {% if status == '1'%}
