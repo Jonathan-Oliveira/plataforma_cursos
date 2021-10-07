@@ -22,6 +22,7 @@ Cadastro
     </div>
   {% endif %}
   {% if status == '0'%}
+  <br>
   <div class="alert alert-success" role="alert">
     Usuário cadastrado com sucesso
   </div>
@@ -36,7 +37,7 @@ Cadastro
           <hr>
           <form method="POST" action="{% url 'valida_cadastro'%}">{% csrf_token %}
               <label>Digite seu nome:</label>
-              <input class="form-control" type="text" placeholder="Nome..." name = "nome">
+              <input class="form-control" type="text" placeholder="Nome" name = "nome">
               <br>
               <label>Digite seu Email:</label>
               <input class="form-control" type="text" placeholder="E-mail" name = "email">
@@ -45,7 +46,7 @@ Cadastro
               <input class="form-control" type="password" placeholder="Senha" name = "senha">
               <br>
               <input class="btn btn-success btn-lg" type="submit">
-              <a href="#" class="btn btn-info btn-lg">Logar</a>
+              <a href="/auth/login" class="btn btn-info btn-lg">Logar</a>
           </form>
       </div>
       <div class="col-md-3">

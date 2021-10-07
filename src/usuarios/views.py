@@ -6,12 +6,19 @@ import hashlib
 
 
 def cadastro(request):
+    if request.session.get('usuario'):
+        return redirect('/home/')
+
     status = request.GET.get('status')
     return render(request, "cadastro.html", {'status': status})
 
 
 def login(request):
-    return render(request, "login.html")
+    if request.session.get('usuario') is not None:
+        return redirect('/home/')
+
+    status = request.GET.get('status')
+    return render(request, "login.html", {'status': status})
 
 
 def valida_cadastro(request):
@@ -38,3 +45,21 @@ def valida_cadastro(request):
         return redirect('/auth/cadastro/?status=0')
     except:
         return HttpResponse("Erro ao cadastrar usuário, tente novamente")
+
+
+def valida_login(request):
+    email = request.POST.get('email')
+    senha = request.POST.get('senha')
+    senha = hashlib.sha256(senha.encode('utf-8')).hexdigest()
+    usuario = Usuario.objects.filter(email=email).filter(senha=senha)
+
+    if len(usuario) == 0:
+        return redirect('/auth/login/?status=1')
+    else:
+        request.session['usuario'] = usuario[0].id
+        return redirect('/home/')
+
+
+def sair(request):
+    request.session.flush()
+    return redirect('/auth/login/')
